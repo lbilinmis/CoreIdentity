@@ -1,0 +1,11 @@
+﻿1-İlk derste eklenilen kütüphaneler aşağıda verilmiştir.
+
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+
+
+2-IdentityDbContext kullanmak için
+Microsoft.AspNetCore.Identity.EntityFrameworkCore kütüphanesi yüklendi
+kullanıldığında 
+	IdentityUser,IdentityRole snıfılarından miras alınarak kendi class larımız oluşturuldu
