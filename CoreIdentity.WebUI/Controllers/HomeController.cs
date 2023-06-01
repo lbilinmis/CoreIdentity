@@ -37,6 +37,11 @@ namespace CoreIdentity.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             AppUser user = new AppUser()
             {
                 UserName = request.UserName,
