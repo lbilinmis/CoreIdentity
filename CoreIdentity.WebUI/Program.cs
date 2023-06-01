@@ -8,9 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
     // Add services to the container.
     builder.Services.AddControllersWithViews();
 
+    string sqlConnection = builder.Configuration.GetConnectionString("SqlConnection");
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+        options.UseSqlServer(sqlConnection);
     });
 
     builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();

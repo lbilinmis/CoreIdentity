@@ -10,6 +10,6 @@ namespace CoreIdentity.WebUI.DataAccess.EntityFramework
         {
         }
 
-    
+
     }
 }
