@@ -1,25 +1,10 @@
 ﻿@{
     ViewData["Title"] = "SignIn";
-
-    string message = string.Empty;
-
-    if (TempData["Success"] != null)
-    {
-        message = TempData["Success"].ToString();
-    }
 }
 
 @model SignInViewModel
 @section Scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
-}
-
-@if (!string.IsNullOrWhiteSpace(message))
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> @message
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 }
 
 

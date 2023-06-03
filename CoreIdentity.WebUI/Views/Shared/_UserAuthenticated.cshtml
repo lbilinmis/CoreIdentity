@@ -1,0 +1,18 @@
+﻿@if (User.Identity!.IsAuthenticated)
+{
+    <!-- Example single danger button -->
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            @User.Identity.Name
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Çıkış Yap</a></li>
+        </ul>
+    </div>
+
+}
+else
+{
+    <a class="btn btn-outline-success mx-2" asp-controller="Home" asp-action="SignUp">Kayıt</a>
+    <a class="btn btn-outline-success p-2" asp-controller="Home" asp-action="SignIn">Oturum Aç</a>
+}

@@ -29,6 +29,20 @@ var builder = WebApplication.CreateBuilder(args);
     //}).AddEntityFrameworkStores<AppDbContext>();
 
     builder.Services.AddIdentityWithExtension();
+    //builder.Services.AddCookieWithExtension(); 
+
+    builder.Services.ConfigureApplicationCookie(opt =>
+    {
+
+        var cookieBuilder = new CookieBuilder();
+        cookieBuilder.Name = "IdentityCookie";
+        opt.LoginPath = new PathString("/Home/SignIn");
+
+        opt.Cookie = cookieBuilder;
+        opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
+        opt.SlidingExpiration = true;
+
+    });
 }
 
 
@@ -48,6 +62,8 @@ var app = builder.Build();
     app.UseStaticFiles();
 
     app.UseRouting();
+
+    app.UseAuthentication();
 
     app.UseAuthorization();
 

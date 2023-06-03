@@ -109,7 +109,7 @@ namespace CoreIdentity.WebUI.Controllers
                 ModelState.AddModelErrorList(new List<string>() { "3 kez hatalı giriş yapıldı. 3 dk boyunca giriş yapılamaz" });
                 return View();
             }
-            ModelState.AddModelErrorList(new List<string>() { "Email veya Parola yanlış" });
+            ModelState.AddModelErrorList(new List<string>() { "Email veya parola yanlış" });
 
             return View();
         }

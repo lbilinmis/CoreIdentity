@@ -24,12 +24,46 @@ namespace CoreIdentity.WebUI.Extensions
                 opt.Lockout.MaxFailedAccessAttempts = 3; // 3 kaz hatalı giriş yapıldığında kitle dedik
 
             })
-                
+
                 .AddPasswordValidator<PasswordValidator>()
                 .AddUserValidator<UserValidator>()
                 .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            //Coookie işlemleri
+            services.ConfigureApplicationCookie(opt =>
+            {
+
+                var cookieBuilder = new CookieBuilder();
+                cookieBuilder.Name = "IdentityCookie";
+                opt.LoginPath = new PathString("/Home/SignIn");
+
+                opt.Cookie = cookieBuilder;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
+                opt.SlidingExpiration = true;
+
+            });
         }
+
+
+        //public static void AddCookieWithExtension(this IServiceCollection services)
+        //{
+            
+        //    //Coookie işlemleri
+        //    services.ConfigureApplicationCookie(opt =>
+        //    {
+
+        //        var cookieBuilder = new CookieBuilder();
+        //        cookieBuilder.Name = "IdentityCookie";
+        //        opt.LoginPath = new PathString("/Home/SignIn");
+
+        //        opt.Cookie = cookieBuilder;
+        //        opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
+        //        opt.SlidingExpiration = true;
+
+        //    });
+        //}
+
     }
 }
 
