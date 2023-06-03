@@ -83,7 +83,7 @@ namespace CoreIdentity.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel request, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Action(nameof(HomeController.Privacy), returnUrl);
+            returnUrl = returnUrl ?? Url.Action(nameof(HomeController.Index), returnUrl);
 
             var IsAvaliableUser = await
                 _userManager.FindByEmailAsync(request.Email);
