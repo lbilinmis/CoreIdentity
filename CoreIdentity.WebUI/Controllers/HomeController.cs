@@ -92,7 +92,7 @@ namespace CoreIdentity.WebUI.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Email veya Parola yanlış");
                 return View();
-            }
+            } 
 
             var _signInResult = await
                 _signInManager.PasswordSignInAsync(IsAvaliableUser, request.Password, request.RememberMe, false);
