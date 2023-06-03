@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "SignIn";
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 @model SignInViewModel
@@ -15,8 +16,11 @@
         <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
         </div>
 
-        <form asp-action="SignIn" asp-controller="Home" method="post">
-          
+    @*    istediğimiz sayfadaki url in okunmasını ve login işleminden sonra yönlendirmesini istiyorsak 
+        aşağıdaki gibi asp-route-returnUrl="@returnUrl" içeren bir kod eklememiz lazım 2.yöntemi var
+        <form asp-action="SignIn" asp-controller="Home" method="post" asp-route-returnUrl="@returnUrl">*@
+
+        <form method="post">          
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" asp-for="Email" class="form-label"></label>
