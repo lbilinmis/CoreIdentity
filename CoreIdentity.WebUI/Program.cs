@@ -37,7 +37,7 @@ var builder = WebApplication.CreateBuilder(args);
         var cookieBuilder = new CookieBuilder();
         cookieBuilder.Name = "IdentityCookie";
         opt.LoginPath = new PathString("/Home/SignIn");
-
+        opt.LogoutPath= new PathString("/Member/LogOut2");
         opt.Cookie = cookieBuilder;
         opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
         opt.SlidingExpiration = true;
