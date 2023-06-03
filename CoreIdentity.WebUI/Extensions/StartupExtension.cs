@@ -1,4 +1,5 @@
-﻿using CoreIdentity.WebUI.DataAccess.EntityFramework;
+﻿using CoreIdentity.WebUI.CustomValidations;
+using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Entities;
 
 namespace CoreIdentity.WebUI.Extensions
@@ -18,7 +19,9 @@ namespace CoreIdentity.WebUI.Extensions
                 opt.Password.RequireUppercase = false; // büyük zorunlu değil
                 opt.Password.RequireDigit = false; // numeric zorunlu olmasın
 
-            }).AddEntityFrameworkStores<AppDbContext>();
+            })
+                .AddPasswordValidator<PasswordValidator>()
+                .AddEntityFrameworkStores<AppDbContext>();
         }
     }
 }
