@@ -1,6 +1,7 @@
 ﻿using CoreIdentity.WebUI.CustomValidations;
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Entities;
+using CoreIdentity.WebUI.Localizations;
 
 namespace CoreIdentity.WebUI.Extensions
 {
@@ -20,8 +21,10 @@ namespace CoreIdentity.WebUI.Extensions
                 opt.Password.RequireDigit = false; // numeric zorunlu olmasın
 
             })
+                
                 .AddPasswordValidator<PasswordValidator>()
                 .AddUserValidator<UserValidator>()
+                .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
                 .AddEntityFrameworkStores<AppDbContext>();
         }
     }
