@@ -21,6 +21,7 @@ namespace CoreIdentity.WebUI.Extensions
 
             })
                 .AddPasswordValidator<PasswordValidator>()
+                .AddUserValidator<UserValidator>()
                 .AddEntityFrameworkStores<AppDbContext>();
         }
     }

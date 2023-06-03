@@ -9,23 +9,23 @@ namespace CoreIdentity.WebUI.CustomValidations
         {
             //password! ,user.UserName! nullable beklenmiyor
 
-            var erros = new List<IdentityError>();
+            var errors = new List<IdentityError>();
 
             if (password!.ToLower().Contains(user.UserName!.ToLower()))
             {
-                erros.Add(new IdentityError() { Code = "PasswordNoContainUserName", Description = "Şifre alanı kullanıcı adı barındıramaz" });
+                errors.Add(new IdentityError() { Code = "PasswordContainUserName", Description = "Şifre alanı kullanıcı adı barındıramaz" });
 
             }
 
             if (password!.ToLower().StartsWith("1234"))
             {
-                erros.Add(new IdentityError() { Code = "PasswordNoContain1234", Description = "Şifre alanı ardışık sayı barındıramaz" });
+                errors.Add(new IdentityError() { Code = "PasswordContain1234", Description = "Şifre alanı ardışık sayı barındıramaz" });
 
             }
 
-            if (erros.Any())
+            if (errors.Any())
             {
-                return Task.FromResult(IdentityResult.Failed(erros.ToArray()));
+                return Task.FromResult(IdentityResult.Failed(errors.ToArray()));
             }
 
             return Task.FromResult(IdentityResult.Success);
