@@ -95,13 +95,20 @@ namespace CoreIdentity.WebUI.Controllers
             } 
 
             var _signInResult = await
-                _signInManager.PasswordSignInAsync(IsAvaliableUser, request.Password, request.RememberMe, false);
+                //_signInManager.PasswordSignInAsync(IsAvaliableUser, request.Password, request.RememberMe, false);
+                _signInManager.PasswordSignInAsync(IsAvaliableUser, request.Password, request.RememberMe, true);
+            //kitlenmesi için true yaptık son parametreyi
 
             if (_signInResult.Succeeded)
             {
                 return Redirect(returnUrl);
             }
 
+            if (_signInResult.IsLockedOut)
+            {
+                ModelState.AddModelErrorList(new List<string>() { "3 kez hatalı giriş yapıldı. 3 dk boyunca giriş yapılamaz" });
+                return View();
+            }
             ModelState.AddModelErrorList(new List<string>() { "Email veya Parola yanlış" });
 
             return View();

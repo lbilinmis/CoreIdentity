@@ -20,6 +20,9 @@ namespace CoreIdentity.WebUI.Extensions
                 opt.Password.RequireUppercase = false; // büyük zorunlu değil
                 opt.Password.RequireDigit = false; // numeric zorunlu olmasın
 
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); // dk boyunca kitle dedik
+                opt.Lockout.MaxFailedAccessAttempts = 3; // 3 kaz hatalı giriş yapıldığında kitle dedik
+
             })
                 
                 .AddPasswordValidator<PasswordValidator>()
