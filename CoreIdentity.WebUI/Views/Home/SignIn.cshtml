@@ -16,11 +16,11 @@
         <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
         </div>
 
-    @*    istediğimiz sayfadaki url in okunmasını ve login işleminden sonra yönlendirmesini istiyorsak 
+        @*    istediğimiz sayfadaki url in okunmasını ve login işleminden sonra yönlendirmesini istiyorsak
         aşağıdaki gibi asp-route-returnUrl="@returnUrl" içeren bir kod eklememiz lazım 2.yöntemi var
         <form asp-action="SignIn" asp-controller="Home" method="post" asp-route-returnUrl="@returnUrl">*@
 
-        <form method="post">          
+        <form method="post">
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" asp-for="Email" class="form-label"></label>
@@ -34,15 +34,22 @@
             <div class="mb-3">
                 <label for="exampleInputPassword1" asp-for="Password" class="form-label"></label>
                 <input value="lebi2022" type="password" asp-for="Password" class="form-control" id="exampleInputPassword1">
-                <span asp-validation-for="Password" class="text-danger" ></span>
+                <span asp-validation-for="Password" class="text-danger"></span>
 
             </div>
 
 
-             <div class="mb-3 form-check">
-            <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Beni Hatırla</label>
+            <div class="mb-3 form-check">
+                <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Beni Hatırla</label>
+
+                <a class="btn btn-outline-info" style="text-decoration:none;float:right" asp-controller="Home" asp-action="ForgetPassword">
+                    Şifremi Unuttum
+                </a>
+
             </div>
+
+          
 
 
             <button type="submit" class="btn btn-success">Giriş Yap</button>

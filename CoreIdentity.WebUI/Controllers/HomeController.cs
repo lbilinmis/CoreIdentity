@@ -92,7 +92,7 @@ namespace CoreIdentity.WebUI.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Email veya Parola yanlış");
                 return View();
-            } 
+            }
 
             var _signInResult = await
                 //_signInManager.PasswordSignInAsync(IsAvaliableUser, request.Password, request.RememberMe, false);
@@ -112,6 +112,34 @@ namespace CoreIdentity.WebUI.Controllers
             ModelState.AddModelErrorList(new List<string>() { "Email veya parola yanlış" });
 
             return View();
+        }
+
+
+
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
+        {
+            //link yolu https://localhost:7132?userId=212121&token=asdfwertzcv
+
+            var hasUser = await _userManager.FindByEmailAsync(request.Email);
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Bu email adresine ait kullanıcı bulunamadı.");
+                return View();
+            }
+
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+            string passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, Token = passwordResetToken });
+
+            TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
+
+            return RedirectToAction(nameof(HomeController.ForgetPassword));
         }
 
 

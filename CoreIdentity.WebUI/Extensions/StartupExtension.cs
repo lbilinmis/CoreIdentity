@@ -2,6 +2,7 @@
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Localizations;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoreIdentity.WebUI.Extensions
 {
@@ -28,6 +29,7 @@ namespace CoreIdentity.WebUI.Extensions
                 .AddPasswordValidator<PasswordValidator>()
                 .AddUserValidator<UserValidator>()
                 .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
 
             //Coookie işlemleri
@@ -44,26 +46,34 @@ namespace CoreIdentity.WebUI.Extensions
 
             });
         }
+        public static void AddCookieWithExtension(this IServiceCollection services)
+        {
 
+            //Coookie işlemleri
+            services.ConfigureApplicationCookie(opt =>
+            {
 
-        //public static void AddCookieWithExtension(this IServiceCollection services)
-        //{
-            
-        //    //Coookie işlemleri
-        //    services.ConfigureApplicationCookie(opt =>
-        //    {
+                var cookieBuilder = new CookieBuilder();
+                cookieBuilder.Name = "IdentityCookie";
+                opt.LoginPath = new PathString("/Home/SignIn");
+                opt.LogoutPath = new PathString("/Member/LogOut2");
+                opt.Cookie = cookieBuilder;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
+                opt.SlidingExpiration = true;
 
-        //        var cookieBuilder = new CookieBuilder();
-        //        cookieBuilder.Name = "IdentityCookie";
-        //        opt.LoginPath = new PathString("/Home/SignIn");
+            });
+        }
 
-        //        opt.Cookie = cookieBuilder;
-        //        opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
-        //        opt.SlidingExpiration = true;
+        public static void AddTokenWithExtension(this IServiceCollection services)
+        {
+            //Token işlemleri
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromHours(2);
+            });
 
-        //    });
-        //}
-
+          
+        }
     }
 }
 
