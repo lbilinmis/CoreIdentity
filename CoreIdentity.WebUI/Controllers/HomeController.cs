@@ -37,11 +37,11 @@ namespace CoreIdentity.WebUI.Controllers
             return View();
         }
 
+
         public IActionResult SignUp()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
         {
@@ -83,8 +83,6 @@ namespace CoreIdentity.WebUI.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel request, string returnUrl = null)
         {
@@ -125,8 +123,6 @@ namespace CoreIdentity.WebUI.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
         {
@@ -151,6 +147,8 @@ namespace CoreIdentity.WebUI.Controllers
 
             return RedirectToAction(nameof(HomeController.ForgetPassword));
         }
+
+
 
         public IActionResult ResetPassword(string userId, string token)
         {
