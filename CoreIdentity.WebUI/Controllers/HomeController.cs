@@ -5,6 +5,8 @@ using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CoreIdentity.WebUI.Controllers
@@ -139,8 +141,8 @@ namespace CoreIdentity.WebUI.Controllers
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
             string passwordResetLink =
-                Url.Action("ResetPassword", "Home", 
-                new { userId = hasUser.Id, Token = passwordResetToken },HttpContext.Request.Scheme);
+                Url.Action("ResetPassword", "Home",
+                new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
 
             ////şağıdaki kod şu an çalışmayacaktır
             await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
@@ -148,6 +150,44 @@ namespace CoreIdentity.WebUI.Controllers
             TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
 
             return RedirectToAction(nameof(HomeController.ForgetPassword));
+        }
+
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId; TempData["token"] = token;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel request)
+        {
+            var userId = TempData["userId"].ToString(); var token = TempData["token"].ToString();
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                throw new Exception("Bir hata meydana geldi");
+            }
+            var hasUser = await _userManager.FindByIdAsync(userId);
+
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı");
+                return View();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(hasUser, token, request.Password);
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Şifre resetleme işlemi başarılı şekilde yapılmıştır.";
+            }
+            else
+            {
+                ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
+                return View();
+            }
+            return View();
         }
 
 
