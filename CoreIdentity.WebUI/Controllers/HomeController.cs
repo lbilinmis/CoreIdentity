@@ -145,7 +145,7 @@ namespace CoreIdentity.WebUI.Controllers
                 new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
 
             ////şağıdaki kod şu an çalışmayacaktır
-            await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
+            //await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
 
             TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
 
@@ -187,6 +187,8 @@ namespace CoreIdentity.WebUI.Controllers
                 ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
                 return View();
             }
+
+            await _userManager.UpdateSecurityStampAsync(hasUser);
             return View();
         }
 

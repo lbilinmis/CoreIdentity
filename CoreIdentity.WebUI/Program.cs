@@ -19,8 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
         options.UseSqlServer(sqlConnection);
     });
 
-
-
+    #region Extensiona Taþýnanlar
     //builder.Services.AddIdentity<AppUser, AppRole>(opt =>
     //{
     //    opt.User.RequireUniqueEmail = true;// Email uniq olsun
@@ -52,6 +51,7 @@ var builder = WebApplication.CreateBuilder(args);
     //{
     //    options.TokenLifespan = TimeSpan.FromHours(2);
     //});
+    #endregion
 
     builder.Services.AddIdentityWithExtension();
     builder.Services.AddCookieWithExtension();
@@ -60,7 +60,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings")) ;
 
     builder.Services.AddScoped<IEmailService, EmailService>();
+    builder.Services.Configure<SecurityStampValidatorOptions>(option =>
+    {
+        option.ValidationInterval=TimeSpan.FromMinutes(30);
+        //30 dk da bir sunucudaki Security Stamp deðeri ile cooki de ki Security Stamp deðeri karþýlaþtýracak
 
+    });
 }
 
 
