@@ -1,6 +1,9 @@
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
+using CoreIdentity.WebUI.OptionsModels;
+using CoreIdentity.WebUI.Services.Abstract;
+using CoreIdentity.WebUI.Services.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,6 +56,10 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddIdentityWithExtension();
     builder.Services.AddCookieWithExtension();
     builder.Services.AddTokenWithExtension();
+
+    builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings")) ;
+
+    builder.Services.AddScoped<IEmailService, EmailService>();
 
 }
 

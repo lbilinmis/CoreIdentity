@@ -1,6 +1,7 @@
 ﻿using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.Models;
+using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace CoreIdentity.WebUI.Controllers
 
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -135,7 +138,12 @@ namespace CoreIdentity.WebUI.Controllers
             }
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
-            string passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, Token = passwordResetToken });
+            string passwordResetLink =
+                Url.Action("ResetPassword", "Home", 
+                new { userId = hasUser.Id, Token = passwordResetToken },HttpContext.Request.Scheme);
+
+            ////şağıdaki kod şu an çalışmayacaktır
+            await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
 
             TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
 
