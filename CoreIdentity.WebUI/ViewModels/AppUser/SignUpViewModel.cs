@@ -21,7 +21,7 @@ namespace CoreIdentity.WebUI.ViewModels.AppUser
         [Required(ErrorMessage = "Şifre boş geçilemez")]
         public string Password { get; set; }
 
-        [Compare(nameof(Password),ErrorMessage ="Şifre aynı olmalıdır.")]
+        [Compare(nameof(Password), ErrorMessage = "Şifre aynı olmalıdır.")]
         [Display(Name = "Şifre Tekrar")]
         [Required(ErrorMessage = "Şifre Tekrar boş geçilemez")]
         public string PasswordConfirm { get; set; }

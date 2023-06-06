@@ -13,14 +13,18 @@ namespace CoreIdentity.WebUI.Localizations
         public override IdentityError DuplicateEmail(string email)
         {
             return new IdentityError() { Code = "DuplicateEmail", Description = $"{email} daha önce başka bir kullanıcı tarafından alınmıştır." };
-        
+
             //return base.DuplicateEmail(email);
         }
 
         public override IdentityError PasswordTooShort(int length)
         {
-            return new IdentityError() { Code = "PasswordTooShort", Description = $"Parola en az {length} " +
-                $"karakterden oluşmalıdır." };
+            return new IdentityError()
+            {
+                Code = "PasswordTooShort",
+                Description = $"Parola en az {length} " +
+                $"karakterden oluşmalıdır."
+            };
 
             //return base.PasswordTooShort(length);
         }

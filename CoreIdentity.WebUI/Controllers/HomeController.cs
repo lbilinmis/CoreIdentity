@@ -5,8 +5,6 @@ using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CoreIdentity.WebUI.Controllers
@@ -86,6 +84,12 @@ namespace CoreIdentity.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel request, string returnUrl = null)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+
             returnUrl = returnUrl ?? Url.Action(nameof(HomeController.Index), returnUrl);
 
             var IsAvaliableUser = await

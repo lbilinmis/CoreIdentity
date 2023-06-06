@@ -72,7 +72,7 @@ namespace CoreIdentity.WebUI.Extensions
                 options.TokenLifespan = TimeSpan.FromHours(2);
             });
 
-          
+
         }
     }
 }

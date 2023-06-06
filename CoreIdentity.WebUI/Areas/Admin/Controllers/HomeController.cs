@@ -9,7 +9,7 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        private readonly UserManager<AppUser>_userManager;
+        private readonly UserManager<AppUser> _userManager;
 
         public HomeController(UserManager<AppUser> userManager)
         {

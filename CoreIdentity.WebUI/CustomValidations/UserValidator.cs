@@ -7,7 +7,7 @@ namespace CoreIdentity.WebUI.CustomValidations
     {
         public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager, AppUser user)
         {
-            var errors=new List<IdentityError>();
+            var errors = new List<IdentityError>();
             var isNumeric = int.TryParse(user!.UserName[0].ToString(), out _);
 
             if (isNumeric)

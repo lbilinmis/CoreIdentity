@@ -1,7 +1,14 @@
-﻿
+﻿@model LoginUserViewModel
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 <p>
-    Hoşgeldin @User.Identity!.Name
+    Hoşgeldin @Model.UserName
+</p>
+<p>
+    Telefon No :@Model.PhoneNumber
+</p>
+
+<p>
+    EPosta :@Model.Email
 </p>

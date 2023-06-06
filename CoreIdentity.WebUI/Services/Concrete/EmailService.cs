@@ -19,7 +19,7 @@ namespace CoreIdentity.WebUI.Services.Concrete
         {
             var smtpClient = new SmtpClient();
 
-            smtpClient.Host =_emailSettings.Host;
+            smtpClient.Host = _emailSettings.Host;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Port = 587;
