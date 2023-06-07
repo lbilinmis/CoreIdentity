@@ -2,13 +2,41 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<p>
-    Hoşgeldin @Model.UserName
-</p>
-<p>
-    Telefon No :@Model.PhoneNumber
-</p>
 
-<p>
-    EPosta :@Model.Email
-</p>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <user-picture picture-url="@Model.PictureUrl"></user-picture>
+    </div>
+</div>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            @*<th scope="col">Image</th>*@
+            <th scope="col">Phone</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+            <tr>
+           @* <th scope="row">
+                @if (!String.IsNullOrEmpty(Model.PictureUrl))
+                {
+                    <img src="/userpictures/@Model.PictureUrl" />
+                }
+                else
+                {
+                     <span></span>
+                }
+            </th>*@
+            <th scope="row">@Model.PhoneNumber</th>
+                <td>@Model.UserName</td>
+                <td>@Model.Email</td>
+            </tr>
+    
+
+    </tbody>
+</table>

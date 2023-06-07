@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "ResetPasswordViewModel";
+    string message = string.Empty;
+
+    if (TempData["Success"] != null)
+    {
+        message = TempData["Success"].ToString();
+    }
+}
+
+@model EditUserViewModel
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> @message
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="col-md-6 offset-md-3">
+    <div class="row">
+        <h5>Kullanıcı Bilgileri Güncelleme </h5>
+        @*<h5>Şifremi yenileme linki e-posta adresinize gönderilecektir. </h5>*@
+        <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
+        </div>
+
+
+        <form method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="Email" asp-for="Email" class="form-label"></label>
+                <input  type="email" asp-for="Email" class="form-control"
+                       id="Email" aria-describedby="emailHelp">
+                <div id="Email" class="form-text"></div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+            </div>
+
+
+            <div class="mb-3">
+                <label for="exampleInput" asp-for="UserName" class="form-label"></label>
+                <input type="text" asp-for="UserName" class="form-control" id="exampleInput" aria-describedby="UserName">
+                <div id="UserName" class="form-text"></div>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+
+            </div>
+
+
+            <div class="mb-3">
+                <label for="PhoneNumber" asp-for="PhoneNumber" class="form-label"></label>
+                <input type="text" asp-for="PhoneNumber" class="form-control" id="PhoneNumber" aria-describedby="PhoneNumber">
+                <div id="PhoneNumber" class="form-text"></div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="BirthDate" asp-for="BirthDate" class="form-label"></label>
+                <input type="datetime" asp-for="BirthDate" class="form-control" id="" aria-describedby="BirthDate">
+                <div id="BirthDate" class="form-text"></div>
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+
+            </div>
+            
+            <div class="mb-3">
+                <label for="City" asp-for="City" class="form-label"></label>
+                <input type="text" asp-for="City" class="form-control" id="" aria-describedby="City">
+                <div id="City" class="form-text"></div>
+                <span asp-validation-for="City" class="text-danger"></span>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="Gender" asp-for="Gender" class="form-label"></label>
+                <select class="form-control" asp-for="Gender" asp-items="@ViewBag.Gender">
+                    <option value="">Cinsiyet Seç.</option>
+                </select>
+                <div id="Gender" class="form-text"></div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+
+            </div>
+
+
+            <div class="mb-3">
+                <label for="Picture" asp-for="Picture" class="form-label"></label>
+                <input type="file" asp-for="Picture" class="form-control" id="" aria-describedby="Picture">
+                <div id="Picture" class="form-text"></div>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+
+            </div>
+
+            <button type="submit" class="btn btn-success">Profil Güncelle</button>
+
+        </form>
+
+
+    </div>
+</div>
+
+
