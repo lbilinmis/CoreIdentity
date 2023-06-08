@@ -18,7 +18,7 @@
     </div>
 }
 
-    <a asp-action="RoleCreate">Create New</a>
+<a asp-action="RoleCreate">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -26,22 +26,23 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-           
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-     
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
                     <a asp-action="RoleUpdate" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
