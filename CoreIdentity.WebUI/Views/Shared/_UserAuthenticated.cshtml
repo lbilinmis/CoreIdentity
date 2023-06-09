@@ -12,6 +12,18 @@
             <li><a class="dropdown-item" asp-action="PasswordChange" asp-controller="Member">Parola Değiştir</a></li>
             <li><a class="dropdown-item" asp-action="UserEdit" asp-controller="Member">Profil Güncelle</a></li>
 
+            @{
+                if (User.HasClaim(x=>x.Value=="Admin"))
+                {
+                    <li>
+                        <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Dashboard</a>
+                    </li>
+                }
+                //var claims = User.Claims.ToList();
+               
+            }
+
+           
         </ul>
     </div>
 

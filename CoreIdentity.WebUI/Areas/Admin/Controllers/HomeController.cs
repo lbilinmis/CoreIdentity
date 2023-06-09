@@ -1,5 +1,6 @@
 ﻿using CoreIdentity.WebUI.Areas.Admin.Models;
 using CoreIdentity.WebUI.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CoreIdentity.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="Admin")]
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

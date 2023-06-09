@@ -1,6 +1,7 @@
 ﻿using CoreIdentity.WebUI.Areas.Admin.Models;
 using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,11 +32,13 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Admin,role-action")]
         public IActionResult RoleCreate()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin,role-action")]
         [HttpPost]
         public async Task<IActionResult> RoleCreate(RoleCreateViewModel request)
         {
@@ -52,7 +55,7 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
             return RedirectToAction(nameof(RolesController.Index));
         }
 
-
+        [Authorize(Roles = "Admin,role-action")]
         public async Task<IActionResult> RoleUpdate(string id)
         {
             var roleUpdate = await _roleManager.FindByIdAsync(id);
@@ -69,6 +72,7 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin,role-action")]
         [HttpPost]
         public async Task<IActionResult> RoleUpdate(RoleUpdateViewModel request)
         {
@@ -94,6 +98,7 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
             return RedirectToAction(nameof(RolesController.Index));
         }
 
+        [Authorize(Roles = "Admin,role-action")]
 
         public async Task<IActionResult> Delete(string id)
         {

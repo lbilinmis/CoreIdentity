@@ -168,5 +168,13 @@ namespace CoreIdentity.WebUI.Controllers
             TempData["Success"] = "üye bilgileri başarlı şekilde değiştirildi.";
             return View();
         }
+
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            string message = String.Empty;
+            message = "Bu sayfaya erişim yetkiniz yoktur.";
+            ViewBag.Message = message;
+            return View();
+        }
     }
 }

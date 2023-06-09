@@ -23,6 +23,7 @@ namespace CoreIdentity.WebUI.Extensions
 
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); // dk boyunca kitle dedik
                 opt.Lockout.MaxFailedAccessAttempts = 3; // 3 kaz hatalı giriş yapıldığında kitle dedik
+            
 
             })
 
@@ -60,6 +61,7 @@ namespace CoreIdentity.WebUI.Extensions
                 opt.Cookie = cookieBuilder;
                 opt.ExpireTimeSpan = TimeSpan.FromDays(60); // 60 gün boyunca cookie de tutar
                 opt.SlidingExpiration = true;
+                opt.AccessDeniedPath = new PathString("/Member/AccessDenied");
 
             });
         }
