@@ -1,10 +1,13 @@
 using CoreIdentity.WebUI.ClaimProviders;
+using CoreIdentity.WebUI.Common;
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.OptionsModels;
+using CoreIdentity.WebUI.Requirements;
 using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.Services.Concrete;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -73,6 +76,7 @@ var builder = WebApplication.CreateBuilder(args);
         AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
 
     builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>(); // claim iþlemleri
+    builder.Services.AddScoped<IAuthorizationHandler, ExchangeExpirationRequirementHandler>(); // claim iþlemleri
 
 
     //City deðeri Diyarbakýr ya da Ýstanbul ise ilgili sayfaua eriþim saðlanýlýr
@@ -83,7 +87,16 @@ var builder = WebApplication.CreateBuilder(args);
             policy.RequireClaim("City", "Diyarbakýr");
          
         });
+
+
+        opt.AddPolicy(Constants.PolicyExchange, policy =>
+        {
+            policy.AddRequirements(new ExchangeExpireRequirement());
+
+        });
+
     });
+
 }
 
 

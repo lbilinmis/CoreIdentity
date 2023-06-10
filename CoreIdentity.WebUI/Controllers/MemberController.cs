@@ -1,4 +1,5 @@
-﻿using CoreIdentity.WebUI.Entities;
+﻿using CoreIdentity.WebUI.Common;
+using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Authorization;
@@ -200,6 +201,15 @@ namespace CoreIdentity.WebUI.Controllers
         public IActionResult DiyarbakirPolicy()
         {
            
+            return View();
+        }
+
+
+        [Authorize(Policy = Constants.PolicyExchange)]
+        [HttpGet]
+        public IActionResult ExchangePolicyPage()
+        {
+
             return View();
         }
     }
