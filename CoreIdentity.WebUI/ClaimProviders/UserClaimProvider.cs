@@ -32,7 +32,7 @@ namespace CoreIdentity.WebUI.ClaimProviders
             
                 if (principal.HasClaim(x => x.Type != "City"))
                 {
-                    Claim cityClaim = new Claim("City", currentUser.City);
+                    Claim cityClaim = new Claim("City", currentUser.City.Trim());
                     identity.AddClaim(cityClaim);
                 }
            

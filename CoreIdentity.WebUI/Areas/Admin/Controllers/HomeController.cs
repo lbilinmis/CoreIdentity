@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CoreIdentity.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

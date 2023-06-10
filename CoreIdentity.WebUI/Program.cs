@@ -73,6 +73,17 @@ var builder = WebApplication.CreateBuilder(args);
         AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
 
     builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>(); // claim iþlemleri
+
+
+    //City deðeri Diyarbakýr ya da Ýstanbul ise ilgili sayfaua eriþim saðlanýlýr
+    builder.Services.AddAuthorization(opt =>
+    {
+        opt.AddPolicy("DiyarbakirPolicy", policy =>
+        {
+            policy.RequireClaim("City", "Diyarbakýr");
+         
+        });
+    });
 }
 
 

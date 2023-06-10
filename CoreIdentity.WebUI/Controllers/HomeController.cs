@@ -6,6 +6,7 @@ using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace CoreIdentity.WebUI.Controllers
 {
@@ -57,15 +58,31 @@ namespace CoreIdentity.WebUI.Controllers
             };
             var identityResult = await _userManager.CreateAsync(user, request.PasswordConfirm);
 
-            if (identityResult.Succeeded)
+            if (!identityResult.Succeeded)
             {
-                TempData["Success"] = "Üye kayıt işleminiz başarılı";
-
-                return RedirectToAction(nameof(HomeController.SignUp));
+                ModelState.AddModelErrorList(identityResult.Errors.Select(x => x.Description).ToList());
+                return View();
             }
 
+            // kullanıcı kayıt olduğunda bir expire süresi içn claaim ekleme işlemi
+            var exchangeExpireClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(5).ToString());
 
-            ModelState.AddModelErrorList(identityResult.Errors.Select(x => x.Description).ToList());
+            var kayitolanKullanici = await _userManager.FindByNameAsync(request.UserName);
+
+            var claimResult = await _userManager.AddClaimAsync(kayitolanKullanici, exchangeExpireClaim);
+
+            if (!claimResult.Succeeded)
+            {
+                ModelState.AddModelErrorList(claimResult.Errors.Select(x => x.Description).ToList());
+                return View();
+            }
+
+            TempData["Success"] = "Üye kayıt işleminiz başarılı";
+
+            return RedirectToAction(nameof(HomeController.SignUp));
+
+
+
 
             //foreach (IdentityError item in identityResult.Errors)
             //{

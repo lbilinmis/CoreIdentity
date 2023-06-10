@@ -181,7 +181,7 @@ namespace CoreIdentity.WebUI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Claims()
+        public IActionResult Claims()
         {
             var userClaimList = User.Claims.Select(x => new ClaimViewModel()
             {
@@ -192,6 +192,15 @@ namespace CoreIdentity.WebUI.Controllers
             }).ToList();
 
             return View(userClaimList);
+        }
+
+
+        [Authorize(Policy = "DiyarbakirPolicy")]
+        [HttpGet]
+        public IActionResult DiyarbakirPolicy()
+        {
+           
+            return View();
         }
     }
 }
