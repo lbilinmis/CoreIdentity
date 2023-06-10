@@ -168,7 +168,19 @@ namespace CoreIdentity.WebUI.Controllers
 
             await _userManager.UpdateSecurityStampAsync(currentUser);
             await _signInManager.SignOutAsync();
-            await _signInManager.SignInAsync(currentUser, true);
+            if (request.BirthDate.HasValue)
+            {
+                await _signInManager.SignInWithClaimsAsync(currentUser, true,
+                    new[] { new Claim("birthdate", currentUser.BirthDate.Value.ToString()) }
+                    );
+            }
+            else
+            {
+                await _signInManager.SignInAsync(currentUser, true);
+
+            }
+
+
 
             TempData["Success"] = "üye bilgileri başarlı şekilde değiştirildi.";
             return View();
@@ -200,7 +212,7 @@ namespace CoreIdentity.WebUI.Controllers
         [HttpGet]
         public IActionResult DiyarbakirPolicy()
         {
-           
+
             return View();
         }
 
@@ -208,6 +220,14 @@ namespace CoreIdentity.WebUI.Controllers
         [Authorize(Policy = Constants.PolicyExchange)]
         [HttpGet]
         public IActionResult ExchangePolicyPage()
+        {
+
+            return View();
+        }
+
+        [Authorize(Policy = Constants.PolicyViolence)]
+        [HttpGet]
+        public IActionResult ViolencePolicyPage()
         {
 
             return View();

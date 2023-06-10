@@ -77,6 +77,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>(); // claim iþlemleri
     builder.Services.AddScoped<IAuthorizationHandler, ExchangeExpirationRequirementHandler>(); // claim iþlemleri
+    builder.Services.AddScoped<IAuthorizationHandler, ViolenceRequirementHandler>(); // claim iþlemleri
 
 
     //City deðeri Diyarbakýr ya da Ýstanbul ise ilgili sayfaua eriþim saðlanýlýr
@@ -85,14 +86,16 @@ var builder = WebApplication.CreateBuilder(args);
         opt.AddPolicy("DiyarbakirPolicy", policy =>
         {
             policy.RequireClaim("City", "Diyarbakýr");
-         
         });
-
 
         opt.AddPolicy(Constants.PolicyExchange, policy =>
         {
             policy.AddRequirements(new ExchangeExpireRequirement());
+        });
 
+        opt.AddPolicy(Constants.PolicyViolence, policy =>
+        {
+            policy.AddRequirements(new ViolenceRequirement() { ThresholdAge = 18 });
         });
 
     });
