@@ -1,8 +1,10 @@
+using CoreIdentity.WebUI.ClaimProviders;
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.OptionsModels;
 using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.Services.Concrete;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -69,6 +71,8 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.
         AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
+
+    builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>(); // claim iþlemleri
 }
 
 
@@ -89,6 +93,7 @@ var app = builder.Build();
 
     app.UseRouting();
 
+    // bu iki middleware olmadan authentication ve authorizatioon iþlemleri yapýlamayacaktýr.
     app.UseAuthentication();
 
     app.UseAuthorization();

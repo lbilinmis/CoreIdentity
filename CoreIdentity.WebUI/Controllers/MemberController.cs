@@ -1,5 +1,4 @@
-﻿using CoreIdentity.WebUI.Areas.Admin.Models;
-using CoreIdentity.WebUI.Entities;
+﻿using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.ViewModels.AppUser;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.FileProviders;
+using System.Security.Claims;
 
 namespace CoreIdentity.WebUI.Controllers
 {
@@ -25,17 +25,21 @@ namespace CoreIdentity.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var userClaims = User.Claims.ToList();
+            var email = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
             AppUser currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
             if (currentUser == null)
             {
                 throw new Exception("Kullanıcı bulunamadı");
             }
+
+
             LoginUserViewModel user = new LoginUserViewModel
             {
                 Email = currentUser.Email,
                 PhoneNumber = currentUser.PhoneNumber,
                 UserName = currentUser.UserName,
-                PictureUrl=currentUser.Picture
+                PictureUrl = currentUser.Picture
             };
 
             return View(user);
@@ -175,6 +179,19 @@ namespace CoreIdentity.WebUI.Controllers
             message = "Bu sayfaya erişim yetkiniz yoktur.";
             ViewBag.Message = message;
             return View();
+        }
+
+        public async Task<IActionResult> Claims()
+        {
+            var userClaimList = User.Claims.Select(x => new ClaimViewModel()
+            {
+
+                Provider = x.Issuer,
+                Type = x.Type,
+                Value = x.Value
+            }).ToList();
+
+            return View(userClaimList);
         }
     }
 }

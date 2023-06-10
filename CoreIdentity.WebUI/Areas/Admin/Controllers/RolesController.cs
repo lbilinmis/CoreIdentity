@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 
 namespace CoreIdentity.WebUI.Areas.Admin.Controllers
 {
@@ -158,7 +157,7 @@ namespace CoreIdentity.WebUI.Areas.Admin.Controllers
                     await _userManager.RemoveFromRoleAsync(user, item.Name);
                 }
             }
-            return RedirectToAction(nameof(HomeController.UserList),"Home");
+            return RedirectToAction(nameof(HomeController.UserList), "Home");
         }
     }
 }

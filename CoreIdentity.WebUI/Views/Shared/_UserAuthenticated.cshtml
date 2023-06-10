@@ -11,6 +11,7 @@
             <li><a class="dropdown-item" asp-action="Index" asp-controller="Member">Üye Bilgileri</a></li>
             <li><a class="dropdown-item" asp-action="PasswordChange" asp-controller="Member">Parola Değiştir</a></li>
             <li><a class="dropdown-item" asp-action="UserEdit" asp-controller="Member">Profil Güncelle</a></li>
+            <li><a class="dropdown-item" asp-action="Claims" asp-controller="Member">Claims</a></li>
 
             @{
                 if (User.HasClaim(x=>x.Value=="Admin"))
