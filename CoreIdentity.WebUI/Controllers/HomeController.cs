@@ -1,4 +1,5 @@
-﻿using CoreIdentity.WebUI.Entities;
+﻿using CoreIdentity.WebUI.Common;
+using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.Models;
 using CoreIdentity.WebUI.Services.Abstract;
@@ -65,7 +66,7 @@ namespace CoreIdentity.WebUI.Controllers
             }
 
             // kullanıcı kayıt olduğunda bir expire süresi içn claaim ekleme işlemi
-            var exchangeExpireClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(5).ToString());
+            var exchangeExpireClaim = new Claim(Constants.ClaimExchange, DateTime.Now.AddDays(5).ToString());
 
             var kayitolanKullanici = await _userManager.FindByNameAsync(request.UserName);
 
@@ -168,8 +169,6 @@ namespace CoreIdentity.WebUI.Controllers
 
             return RedirectToAction(nameof(HomeController.ForgetPassword));
         }
-
-
 
         public IActionResult ResetPassword(string userId, string token)
         {
