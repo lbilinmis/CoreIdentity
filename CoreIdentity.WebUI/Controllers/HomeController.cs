@@ -37,7 +37,6 @@ namespace CoreIdentity.WebUI.Controllers
             return View();
         }
 
-
         public IActionResult SignUp()
         {
             return View();
@@ -93,13 +92,12 @@ namespace CoreIdentity.WebUI.Controllers
             return View();
         }
 
-
-
         public IActionResult SignIn()
         {
             return View();
         }
         [HttpPost]
+
         public async Task<IActionResult> SignIn(SignInViewModel request, string returnUrl = null)
         {
             if (!ModelState.IsValid)
@@ -150,84 +148,83 @@ namespace CoreIdentity.WebUI.Controllers
 
             return Redirect(returnUrl);
 
-            }
+        }
 
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
 
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
+        {
+            //link yolu https://localhost:7132?userId=212121&token=asdfwertzcv
 
-            public IActionResult ForgetPassword()
+            var hasUser = await _userManager.FindByEmailAsync(request.Email);
+            if (hasUser == null)
             {
-                return View();
-            }
-            [HttpPost]
-            public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
-            {
-                //link yolu https://localhost:7132?userId=212121&token=asdfwertzcv
-
-                var hasUser = await _userManager.FindByEmailAsync(request.Email);
-                if (hasUser == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Bu email adresine ait kullanıcı bulunamadı.");
-                    return View();
-                }
-
-                string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
-                string passwordResetLink =
-                    Url.Action("ResetPassword", "Home",
-                    new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
-
-                ////şağıdaki kod şu an çalışmayacaktır
-                //await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
-
-                TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
-
-                return RedirectToAction(nameof(HomeController.ForgetPassword));
-            }
-
-            public IActionResult ResetPassword(string userId, string token)
-            {
-                TempData["userId"] = userId; TempData["token"] = token;
-
-
+                ModelState.AddModelError(string.Empty, "Bu email adresine ait kullanıcı bulunamadı.");
                 return View();
             }
 
-            [HttpPost]
-            public async Task<IActionResult> ResetPassword(ResetPasswordViewModel request)
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+            string passwordResetLink =
+                Url.Action("ResetPassword", "Home",
+                new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
+
+            ////şağıdaki kod şu an çalışmayacaktır
+            //await _emailService.SendResetPasswordEmail(passwordResetLink, request.Email);
+
+            TempData["Success"] = "Şifre resetleme linki e-posta adresinize yönlendirilmiştir.";
+
+            return RedirectToAction(nameof(HomeController.ForgetPassword));
+        }
+
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId; TempData["token"] = token;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel request)
+        {
+            var userId = TempData["userId"].ToString(); var token = TempData["token"].ToString();
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
-                var userId = TempData["userId"].ToString(); var token = TempData["token"].ToString();
+                throw new Exception("Bir hata meydana geldi");
+            }
+            var hasUser = await _userManager.FindByIdAsync(userId);
 
-                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-                {
-                    throw new Exception("Bir hata meydana geldi");
-                }
-                var hasUser = await _userManager.FindByIdAsync(userId);
-
-                if (hasUser == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı");
-                    return View();
-                }
-
-                var result = await _userManager.ResetPasswordAsync(hasUser, token, request.Password);
-                if (result.Succeeded)
-                {
-                    TempData["Success"] = "Şifre resetleme işlemi başarılı şekilde yapılmıştır.";
-                }
-                else
-                {
-                    ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
-                    return View();
-                }
-
-                await _userManager.UpdateSecurityStampAsync(hasUser);
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı");
                 return View();
             }
 
-
-            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-            public IActionResult Error()
+            var result = await _userManager.ResetPasswordAsync(hasUser, token, request.Password);
+            if (result.Succeeded)
             {
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                TempData["Success"] = "Şifre resetleme işlemi başarılı şekilde yapılmıştır.";
             }
+            else
+            {
+                ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
+                return View();
+            }
+
+            await _userManager.UpdateSecurityStampAsync(hasUser);
+            return View();
+        }
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+}

@@ -1,9 +1,11 @@
 using CoreIdentity.WebUI.ClaimProviders;
 using CoreIdentity.WebUI.Common;
 using CoreIdentity.WebUI.DataAccess.EntityFramework;
+using CoreIdentity.WebUI.Entities;
 using CoreIdentity.WebUI.Extensions;
 using CoreIdentity.WebUI.OptionsModels;
 using CoreIdentity.WebUI.Requirements;
+using CoreIdentity.WebUI.Seeds;
 using CoreIdentity.WebUI.Services.Abstract;
 using CoreIdentity.WebUI.Services.Concrete;
 using Microsoft.AspNetCore.Authentication;
@@ -100,12 +102,21 @@ var builder = WebApplication.CreateBuilder(args);
 
     });
 
+
+
+
 }
 
 
 var app = builder.Build();
 
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var rolemanager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+        await PermissionSeed.Seed(rolemanager);
+
+    }
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
